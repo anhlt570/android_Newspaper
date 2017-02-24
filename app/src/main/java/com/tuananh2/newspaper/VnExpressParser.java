@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -44,7 +45,7 @@ public class VnExpressParser extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vnexpress_news);
-        vnExpressNews = new ArrayList<NewsEntry>();
+        vnExpressNews = new ArrayList<>();
         DownloadXML myAsyncTask = new DownloadXML();
         myAsyncTask.execute();
     }
@@ -62,7 +63,7 @@ public class VnExpressParser extends Activity {
 
 
     public List<NewsEntry> fetchXML(String urlString) throws IOException, XmlPullParserException {
-        List<NewsEntry> listEntries = new ArrayList<NewsEntry>();
+        List<NewsEntry> listEntries = new ArrayList<>();
         InputStream inputStream = getInputStream(urlString);
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
         XmlPullParser parser = factory.newPullParser();
@@ -72,30 +73,11 @@ public class VnExpressParser extends Activity {
         while (parser.getEventType() != XmlPullParser.END_DOCUMENT) {
             Log.d(TAG, "fetchXML: event= " + parser.getEventType() + " name= " + parser.getName());
             if (parser.getEventType() == XmlPullParser.START_TAG && parser.getName().equals("item")) {
-                //  Log.d(TAG, "balala: event= " + parser.getEventType() + " name= " + parser.getName());
                 listEntries.add(getNewsEntry(parser));
             } else parser.next();
         }
         return listEntries;
     }
-
-//    public List<String> getLinks(XmlPullParser parser) throws IOException, XmlPullParserException {
-//        List<String> links = new ArrayList<String>();
-//
-//        parser.require(XmlPullParser.START_TAG, null, "channel");
-//        while (parser.getEventType() != XmlPullParser.END_TAG) {
-//
-//            Log.d(TAG, "getLinks: event= " + parser.getEventType() + " name= " + parser.getName());
-//            if (parser.getEventType() == XmlPullParser.START_TAG && parser.getName().equals("link")) {
-//                if (parser.next() == XmlPullParser.TEXT) {
-//                    links.add(parser.getText());
-//                    //Log.d(TAG, "getLinks: " + parser.getText());
-//                }
-//            }
-//            parser.next();
-//        }
-//        return links;
-//    }
 
     public NewsEntry getNewsEntry(XmlPullParser parser) throws IOException, XmlPullParserException {
         String title = "";
@@ -146,7 +128,7 @@ public class VnExpressParser extends Activity {
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                news = new ArrayList<NewsEntry>();
+                news = new ArrayList<>();
                 news= fetchXML("http://vnexpress.net/rss/thoi-su.rss");
                 publishProgress();
             } catch (MalformedURLException e) {
@@ -166,19 +148,19 @@ public class VnExpressParser extends Activity {
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
             final ListView listNews = (ListView) findViewById(R.id.list_vnexpress_news);
-            // Log.d(TAG, "onProgressUpdate: list link size= "+links.size());
-            List<String> titles= new ArrayList<String>() ;
+            List<String> titles= new ArrayList<>() ;
             for(NewsEntry entry:news)
             {
                 titles.add(entry.m_title);
             }
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.news_item,titles);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.news_item,titles);
             listNews.setAdapter(adapter);
             listNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Intent intent = new Intent(getApplicationContext(), WebBrowser.class);
-                    intent.putExtra("url",news.get(i).m_link);
+                    String link = news.get(i).m_link;
+                    intent.putExtra("url",link);
                     startActivity(intent);
                 }
             });
