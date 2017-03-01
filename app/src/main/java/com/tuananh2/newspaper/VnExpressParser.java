@@ -270,12 +270,11 @@ public class VnExpressParser extends Activity {
                 imageView.setImageBitmap(result);
             }
 
-            private Bitmap download_Image(String url) {
-
+            private Bitmap download_Image(String urlString) {
                 Bitmap bmp =null;
                 try{
-                    URL ulrn = new URL(url);
-                    HttpURLConnection con = (HttpURLConnection)ulrn.openConnection();
+                    URL url = new URL(urlString);
+                    HttpURLConnection con = (HttpURLConnection)url.openConnection();
                     InputStream is = con.getInputStream();
                     bmp = BitmapFactory.decodeStream(is);
                     if (null != bmp)
