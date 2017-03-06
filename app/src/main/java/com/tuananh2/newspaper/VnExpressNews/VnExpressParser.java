@@ -1,4 +1,4 @@
-package com.tuananh2.newspaper;
+package com.tuananh2.newspaper.VnExpressNews;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.tuananh2.newspaper.R;
+import com.tuananh2.newspaper.MyWebBrowser.WebBrowserActivity;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

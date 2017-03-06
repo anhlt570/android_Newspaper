@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.tuananh2.newspaper.DemoFragment.TestFragmentActivity;
+import com.tuananh2.newspaper.MyWebBrowser.WebBrowserActivity;
+import com.tuananh2.newspaper.VnExpressNews.VnExpressParser;
 
 public class MainActivity extends Activity {
     public static final String TAG = "anhlt2";
@@ -59,7 +61,6 @@ public class MainActivity extends Activity {
     {
         Intent intent = new Intent(getApplicationContext(), TestFragmentActivity.class);
         startActivity(intent);
-
     }
 
 }

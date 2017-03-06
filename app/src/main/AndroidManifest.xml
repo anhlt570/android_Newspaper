@@ -17,13 +17,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".VnExpressParser">
+        <activity android:name=".VnExpressNews.VnExpressParser">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity android:name=".WebBrowserActivity">
+        <activity android:name=".MyWebBrowser.WebBrowserActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>

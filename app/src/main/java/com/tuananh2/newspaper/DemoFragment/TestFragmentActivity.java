@@ -2,7 +2,7 @@ package com.tuananh2.newspaper.DemoFragment;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
-        import android.os.Bundle;
+import android.os.Bundle;
 
 import com.tuananh2.newspaper.R;
 
