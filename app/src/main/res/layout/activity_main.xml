@@ -7,10 +7,10 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btn_vnexpress_parser"
+        android:id="@+id/btn_vnexpress_news"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" VnExpressParser "/>
+        android:text=" VnExpress News "/>
 
     <Button
         android:id="@+id/btn_web_browser"

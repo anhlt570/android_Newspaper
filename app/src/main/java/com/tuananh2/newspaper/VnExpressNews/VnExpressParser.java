@@ -1,20 +1,26 @@
 package com.tuananh2.newspaper.VnExpressNews;
 
-import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.tuananh2.newspaper.R;
 import com.tuananh2.newspaper.MyWebBrowser.WebBrowserActivity;
+import com.tuananh2.newspaper.R;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -33,26 +39,32 @@ import java.util.List;
  * Created by anh.letuan2 on 2/24/2017.
  */
 
-public class VnExpressParser extends Activity {
+public class VnExpressParser extends Fragment{
     public class NewsEntry {
-        public String m_link, m_title;
+        public String m_link, m_title,m_imageLink;
 
-        NewsEntry(String title, String link) {
+        NewsEntry(String title, String link, String imageLink) {
             this.m_link = link;
             this.m_title = title;
+            this.m_imageLink = imageLink;
         }
     }
 
     public static final String TAG = "anhlt2";
-    public List<NewsEntry> vnExpressNews;
+    public List<NewsEntry> m_listNews;
+    public String m_RSSLink;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.vnexpress_news);
-        vnExpressNews = new ArrayList<>();
+    VnExpressParser(String link)
+    {
+        m_RSSLink= link;
         DownloadXML myAsyncTask = new DownloadXML();
         myAsyncTask.execute();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.vnexpress_news,container,false);
     }
 
     public InputStream getInputStream(String urlString) throws IOException {
@@ -87,6 +99,7 @@ public class VnExpressParser extends Activity {
     public NewsEntry getNewsEntry(XmlPullParser parser) throws IOException, XmlPullParserException {
         String title = "";
         String link = "";
+        String imageLink = "";
         Log.d(TAG, "getNewsEntry: ");
         while (true) {
            if(parser.getEventType() == XmlPullParser.END_TAG && parser.getName().equals("item")) break;
@@ -97,12 +110,15 @@ public class VnExpressParser extends Activity {
                 } else if (parser.getName().equals("title")) {
                     title = getTitle(parser);
                     Log.d(TAG, "getNewsEntry: title= " + title);
+                }else if (parser.getName().equals("description")) {
+                    String description = getDescription(parser);
+                    imageLink = getImageLinkFromDescription(description);
                 }
             }
             parser.next();
     }
         parser.nextTag();
-        return new NewsEntry(title, link);
+        return new NewsEntry(title, link,imageLink);
     }
 
     public String getLink(XmlPullParser parser) throws IOException, XmlPullParserException {
@@ -127,14 +143,40 @@ public class VnExpressParser extends Activity {
         return title;
     }
 
+    public String getDescription(XmlPullParser parser) throws IOException, XmlPullParserException {
+        String description = "";
+        parser.require(XmlPullParser.START_TAG, null, "description");
+        if (parser.next() == XmlPullParser.TEXT) {
+            description = parser.getText();
+            getImageLinkFromDescription(description);
+            parser.nextTag();
+        }
+        parser.require(XmlPullParser.END_TAG, null, "description");
+        return description;
+    }
+
+    public String getImageLinkFromDescription(String description) {
+        //link example: <img width=130 height=100 src="http://img.f31.vnecdn.net/2017/03/06/cong-an-bi-giang-ho-danh.jpg" >
+        String imageLink = description.substring(description.indexOf("<img"));
+        imageLink = imageLink.substring(imageLink.indexOf("http"));
+        for (int i = 0; i < imageLink.length(); i++) {
+            if (imageLink.charAt(i) == '\"') {
+                   return imageLink.substring(0, i);
+            }
+        }
+        return imageLink;
+    }
+
     private class DownloadXML extends AsyncTask<Void, Void, Void> {
-        List<NewsEntry> news;
+        MyArrayAdapter myArrayAdapter;
 
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                news = new ArrayList<>();
-                news= fetchXML("http://vnexpress.net/rss/thoi-su.rss");
+                m_listNews = new ArrayList<NewsEntry>();
+                m_listNews = fetchXML(m_RSSLink);
+                myArrayAdapter = new MyArrayAdapter(getActivity(), m_listNews);
+
                 publishProgress();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -145,50 +187,75 @@ public class VnExpressParser extends Activity {
             } catch (XmlPullParserException e) {
                 e.printStackTrace();
             }
-
             return null;
         }
 
         @Override
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
-            final ListView listNews = (ListView) findViewById(R.id.list_vnexpress_news);
-            List<String> titles= new ArrayList<>() ;
-            for(NewsEntry entry:news)
-            {
-                titles.add(entry.m_title);
-            }
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.news_item,titles);
-            listNews.setAdapter(adapter);
+            final ListView listNews = (ListView) getActivity().findViewById(R.id.list_vnexpress_news);
+            // Log.d(TAG, "onProgressUpdate: list link size= "+links.size());
+            listNews.setAdapter(myArrayAdapter);
+
             listNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Intent intent = new Intent(getApplicationContext(), WebBrowserActivity.class);
-                    String link = news.get(i).m_link;
-                    intent.putExtra("url",link);
+                    Intent intent = new Intent(getActivity(), WebBrowserActivity.class);
+                    intent.putExtra("url", m_listNews.get(i).m_link);
                     startActivity(intent);
                 }
             });
             Log.d(TAG, "onProgressUpdate: ");
         }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-        }
     }
 
-    private class myArrayAdapter extends ArrayAdapter<NewsEntry>
-    {
-
-        public myArrayAdapter(Context context,  List<NewsEntry> entries) {
-            super(context,0 ,entries);
+    private class MyArrayAdapter extends ArrayAdapter<NewsEntry> {
+        public MyArrayAdapter(Context context, List<NewsEntry> entries) {
+            super(context, R.layout.news_item, entries);
         }
 
         @NonNull
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            return super.getView(position, convertView, parent);
+            NewsEntry entry = getItem(position);
+            if (convertView == null) {
+                convertView = getActivity().getLayoutInflater().inflate(R.layout.news_item, parent, false);
+            }
+            TextView titleContent = (TextView) convertView.findViewById(R.id.news_title_text);
+            ImageView titleImage = (ImageView) convertView.findViewById(R.id.news_title_image);
+            titleContent.setText(entry.m_title);
+            titleImage.setTag(entry.m_imageLink);
+            new DownloadImagesTask().execute(titleImage);
+            return convertView;
         }
+        public class DownloadImagesTask extends AsyncTask<ImageView, Void, Bitmap> {
+
+            ImageView imageView = null;
+
+            @Override
+            protected Bitmap doInBackground(ImageView... imageViews) {
+                this.imageView = imageViews[0];
+                return download_Image((String)imageView.getTag());
+            }
+
+            @Override
+            protected void onPostExecute(Bitmap result) {
+                imageView.setImageBitmap(result);
+            }
+
+            private Bitmap download_Image(String url) {
+
+                Bitmap bmp =null;
+                try{
+                    URL ulrn = new URL(url);
+                    HttpURLConnection con = (HttpURLConnection)ulrn.openConnection();
+                    InputStream is = con.getInputStream();
+                    bmp = BitmapFactory.decodeStream(is);
+                    if (null != bmp)
+                        return bmp;
+
+                }catch(Exception e){}
+                return bmp;
+            } }
     }
 }
