@@ -9,6 +9,8 @@ import android.view.View;
 
 import android.widget.Button;
 
+import com.tuananh2.newspaper.DemoFragment.TestFragmentActivity;
+
 public class MainActivity extends Activity {
     public static final String TAG = "anhlt2";
         @Override

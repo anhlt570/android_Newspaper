@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".TestFragmentActivity">
+        <activity android:name=".DemoFragment.TestFragmentActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>

@@ -1,8 +1,10 @@
-package com.tuananh2.newspaper;
+package com.tuananh2.newspaper.DemoFragment;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
         import android.os.Bundle;
+
+import com.tuananh2.newspaper.R;
 
 /**
  * Created by anh.letuan2 on 3/6/2017.
