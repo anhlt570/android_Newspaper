@@ -1,12 +1,15 @@
 package com.tuananh2.newspaper;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -170,6 +173,20 @@ public class VnExpressParser extends Activity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+        }
+    }
+
+    private class myArrayAdapter extends ArrayAdapter<NewsEntry>
+    {
+
+        public myArrayAdapter(Context context,  List<NewsEntry> entries) {
+            super(context,0 ,entries);
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return super.getView(position, convertView, parent);
         }
     }
 }

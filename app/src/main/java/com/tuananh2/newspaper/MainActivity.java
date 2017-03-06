@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 
 import android.os.Bundle;
-import android.os.StatFs;
 import android.view.View;
 
 import android.widget.Button;
@@ -29,7 +28,14 @@ public class MainActivity extends Activity {
             btnWebBrowser.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startWebBrowser("http://google.com");
+                    startMyWebBrowser("http://google.com");
+                }
+            });
+            Button btnDemoFragment =(Button) findViewById(R.id.btn_test_fragment);
+            btnDemoFragment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startTestedFragment();
                 }
             });
     }
@@ -40,11 +46,18 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    public void startWebBrowser(String url)
+    public void startMyWebBrowser(String url)
     {
         Intent intent = new Intent(getApplicationContext(),WebBrowser.class);
         intent.putExtra("url",url);
         startActivity(intent);
+    }
+
+    public void startTestedFragment()
+    {
+        Intent intent = new Intent(getApplicationContext(), TestFragment.class);
+        startActivity(intent);
+
     }
 
 }
