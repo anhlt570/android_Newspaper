@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -161,7 +160,7 @@ public class VnExpressParser extends Activity {
             listNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Intent intent = new Intent(getApplicationContext(), WebBrowser.class);
+                    Intent intent = new Intent(getApplicationContext(), WebBrowserActivity.class);
                     String link = news.get(i).m_link;
                     intent.putExtra("url",link);
                     startActivity(intent);

@@ -13,7 +13,7 @@ import java.security.PrivilegedExceptionAction;
  * Created by anh.letuan2 on 2/24/2017.
  */
 
-public class WebBrowser extends Activity {
+public class WebBrowserActivity extends Activity {
     private class MyWebBrowser extends WebViewClient
     {
         @Override

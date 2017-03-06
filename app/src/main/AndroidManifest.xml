@@ -23,13 +23,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".WebBrowser">
+        <activity android:name=".WebBrowserActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity android:name=".TestFragment">
+        <activity android:name=".TestFragmentActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>

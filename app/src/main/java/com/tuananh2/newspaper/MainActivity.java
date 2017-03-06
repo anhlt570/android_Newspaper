@@ -48,14 +48,14 @@ public class MainActivity extends Activity {
 
     public void startMyWebBrowser(String url)
     {
-        Intent intent = new Intent(getApplicationContext(),WebBrowser.class);
+        Intent intent = new Intent(getApplicationContext(),WebBrowserActivity.class);
         intent.putExtra("url",url);
         startActivity(intent);
     }
 
     public void startTestedFragment()
     {
-        Intent intent = new Intent(getApplicationContext(), TestFragment.class);
+        Intent intent = new Intent(getApplicationContext(), TestFragmentActivity.class);
         startActivity(intent);
 
     }

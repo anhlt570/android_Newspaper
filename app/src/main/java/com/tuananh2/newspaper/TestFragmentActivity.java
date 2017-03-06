@@ -8,7 +8,7 @@ import android.app.FragmentTransaction;
  * Created by anh.letuan2 on 3/6/2017.
  */
 
-public class TestFragment extends Activity {
+public class TestFragmentActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
