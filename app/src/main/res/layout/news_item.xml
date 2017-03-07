@@ -5,11 +5,11 @@
               android:orientation="horizontal">
     <ImageView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:id="@+id/news_title_image"
-        android:background="#ff0000"
-        />
+        android:layout_gravity="center"/>
+
     <TextView
         android:layout_height="match_parent"
         android:layout_width="0dp"
@@ -20,6 +20,5 @@
         android:textSize="10pt"
         android:background="#ffffff"
         android:maxLines="2"
-        android:gravity="left|center_horizontal"
-        />
+        android:gravity="left|center_horizontal"/>
 </LinearLayout>
