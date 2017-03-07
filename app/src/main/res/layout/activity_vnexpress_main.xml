@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
     <TextView
+        android:id="@+id/news_title"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center"
-        android:textColor="#ffffff"
         android:background="#00ff00"
-        android:textSize="16pt"
+        android:gravity="center"
         android:text="Trang chủ"
-        android:id="@+id/news_title"/>
+        android:textColor="#ffffff"
+        android:textSize="16pt"/>
+
     <FrameLayout
-        android:background="#aaaaaa"
+        android:id="@+id/news_container_fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="9"
-        android:id="@+id/news_container_fragment"></FrameLayout>
+        android:layout_weight="9"/>
 
 </LinearLayout>
