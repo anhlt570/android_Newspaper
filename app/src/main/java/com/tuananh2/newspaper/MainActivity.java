@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.tuananh2.newspaper.DemoFragment.TestFragmentActivity;
 import com.tuananh2.newspaper.MyWebBrowser.WebBrowserActivity;
+import com.tuananh2.newspaper.SlidePaneDemo.SlidePaneActivity;
 import com.tuananh2.newspaper.VnExpressNews.VnExpressMainActivity;
 import com.tuananh2.newspaper.VnExpressNews.VnExpressParser;
 
@@ -44,6 +45,13 @@ public class MainActivity extends Activity {
                 startTestedFragment();
             }
         });
+        Button btnSlidePane = (Button) findViewById(R.id.btn_slide_pane);
+        btnSlidePane.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startSlidePaneActivity();
+            }
+        });
     }
 
     public void startVnExpressNews() {
@@ -61,6 +69,12 @@ public class MainActivity extends Activity {
 
     public void startTestedFragment() {
         Intent intent = new Intent(getApplicationContext(), TestFragmentActivity.class);
+        startActivity(intent);
+    }
+
+    public void startSlidePaneActivity()
+    {
+        Intent intent = new Intent(getApplicationContext(), SlidePaneActivity.class);
         startActivity(intent);
     }
 
