@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SlidingPaneLayout;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
@@ -28,10 +30,15 @@ public class VnExpressMainActivity extends Activity {
         TextView title = (TextView) findViewById(R.id.news_title);
         title.setText(titleString);
 
+        SlidingPaneLayout slidingPaneLayout = (SlidingPaneLayout) findViewById(R.id.news_viewer);
+        slidingPaneLayout.setSliderFadeColor(ContextCompat.getColor(this, android.R.color.transparent));
+        slidingPaneLayout.openPane();
         String urlString = intent.getExtras().getString("link");
         Fragment listNews = new VnExpressParser(urlString);
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.news_container_fragment, listNews);
         fragmentTransaction.commit();
+
+
     }
 }

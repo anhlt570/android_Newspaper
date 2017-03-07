@@ -15,10 +15,53 @@
         android:textColor="#ffffff"
         android:textSize="16pt"/>
 
-    <FrameLayout
-        android:id="@+id/news_container_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="9"/>
 
+    <android.support.v4.widget.SlidingPaneLayout    android:layout_width="match_parent"
+                                                    android:layout_height="0dp"
+                                                    android:layout_weight="9"
+                                                    android:orientation="horizontal"
+                                                    android:id="@+id/news_viewer">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginRight="200dp"
+            android:background="#821720">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="10pt"
+                android:background="#821720"
+                android:textColor="#ffffff"
+                android:id="@+id/category_main_page"
+                android:text="Trang chủ"
+                android:tag="http://vnexpress.net/rss/tin-moi-nhat.rss"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="#821720"
+                android:textSize="10pt"
+                android:textColor="#ffffff"
+                android:id="@+id/category_daily_news"
+                android:text="Thời sự"
+                android:tag="http://vnexpress.net/rss/thoi-su.rss"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="#821720"
+                android:textSize="10pt"
+                android:textColor="#ffffff"
+                android:id="@+id/category_international_news"
+                android:text="Thế giới"
+                android:tag="http://vnexpress.net/rss/the-gioi.rss"/>
+        </LinearLayout>
+        <FrameLayout
+            android:id="@+id/news_container_fragment"
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </android.support.v4.widget.SlidingPaneLayout>
 </LinearLayout>
